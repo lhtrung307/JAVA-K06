@@ -1,0 +1,84 @@
+package view;
+
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+
+public class MyWannacry extends JFrame implements ActionListener{
+	public MyWannacry(){
+		this.setTitle("My Wannacry 1.0");
+		
+		this.setSize(600, 400);
+		
+		this.getContentPane().setBackground(Color.RED);
+		
+		JPanel jPanelFileSrc = new JPanel();
+//		jPanelFileSrc.setLayout(new FlowLayout());
+		JLabel jLableFileSource = new JLabel("File source");
+		JTextField jTextField = new JTextField(50);
+		JButton jButton = new JButton("Chon File");
+		jPanelFileSrc.add(jLableFileSource);
+		jPanelFileSrc.add(jTextField);
+		jPanelFileSrc.add(jButton);
+		
+		this.add(jPanelFileSrc);
+		
+		JPanel jPanelFileDest = new JPanel();
+//		jPanelFileDest.setLayout(new FlowLayout());
+		JLabel jLableFileDest = new JLabel("File source");
+		JTextField jTextFieldFileDest = new JTextField(50);
+		JButton jButtonFileDest = new JButton("Chon File");
+		jPanelFileDest.add(jLableFileDest);
+		jPanelFileDest.add(jTextFieldFileDest);
+		jPanelFileDest.add(jButtonFileDest);
+		
+		this.add(jPanelFileDest);
+		
+		JPanel jPanelCode = new JPanel();
+//		jPanelFileDest.setLayout(new FlowLayout());
+		JLabel jLableCode = new JLabel("Code");
+		JTextField jTextFieldCode = new JTextField(60);
+//		JButton jButtonFileDest = new JButton("Chon File");
+		jPanelFileDest.add(jLableCode);
+		jPanelFileDest.add(jTextFieldCode);
+//		jPanelFileDest.add(jButtonFileDest);
+		
+		this.add(jPanelCode);
+
+		JButton encrypt = new JButton("Encrypt");
+//		jPanelFileDest.setLayout(new FlowLayout());
+		
+		this.add(encrypt);
+		
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		this.setVisible(true);
+	}
+	
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		new MyWannacry();
+	}
+}

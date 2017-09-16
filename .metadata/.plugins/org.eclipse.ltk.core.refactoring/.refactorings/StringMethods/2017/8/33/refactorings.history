@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;stringmethods.hello&apos; to &apos;Date&apos;&#x0D;&#x0A;- Original project: &apos;StringMethods&apos;&#x0D;&#x0A;- Original element: &apos;stringmethods.hello&apos;&#x0D;&#x0A;- Renamed element: &apos;stringmethods.Date&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;hello&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;stringmethods{hello.java[hello" matchStrategy="1" name="Date" qualified="false" references="true" similarDeclarations="false" stamp="1503131609138" textual="false" version="1.0"/>
+</session>

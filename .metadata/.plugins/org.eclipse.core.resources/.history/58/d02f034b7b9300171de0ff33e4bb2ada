@@ -1,0 +1,67 @@
+package view;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
+public class MenuBarItem {
+	private JMenu menuFile;
+	private MenuFileItem fileItem = new MenuFileItem();
+	private JMenu menuEdit;
+	private MenuEditItem editItem = new MenuEditItem();
+	private JMenu menuFormat;
+	private MenuFormatItem formatItem = new MenuFormatItem();
+	private JMenu menuView;
+	
+	private JMenu menuHelp;
+	
+	public JMenu getMenuFile() {
+		return menuFile;
+	}
+	public JMenu getMenuEdit() {
+		return menuEdit;
+	}
+	public MenuFileItem getFileItem() {
+		return fileItem;
+	}
+	public JMenu getMenuFormat() {
+		return menuFormat;
+	}
+	public JMenu getMenuView() {
+		return menuView;
+	}
+	public JMenu getMenuHelp() {
+		return menuHelp;
+	}
+	
+	public MenuBarItem(){
+		createMenuFile();
+		createMenuEdit();
+		createMenuFormat();
+		menuView = new JMenu("View");
+		menuHelp = new JMenu("Help");	
+	}
+	
+	private void createMenuFile(){
+		menuFile = new JMenu("File");
+		fileItem.addMenuFile(menuFile);
+	}
+	
+	private void createMenuEdit(){
+		menuEdit = new JMenu("Edit");
+		editItem.addEditItem(menuEdit);
+	}
+	
+	private void createMenuFormat(){
+		menuFormat = new JMenu("Format");
+		formatItem.addFormatItem(menuFormat);
+	}
+	
+	
+	public void addMenuBar(JMenuBar menuBar){
+		menuBar.add(menuFile);
+		menuBar.add(menuEdit);
+		menuBar.add(menuFormat);
+		menuBar.add(menuView);
+		menuBar.add(menuHelp);
+	}
+}

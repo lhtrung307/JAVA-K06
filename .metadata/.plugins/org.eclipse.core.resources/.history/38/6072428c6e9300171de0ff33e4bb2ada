@@ -1,0 +1,44 @@
+package view;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
+public class MenuBarItem {
+	private JMenu menuFile;
+	private JMenu menuEdit;
+	private JMenu menuFormat;
+	private JMenu menuView;
+	private JMenu menuHelp;
+	
+	public JMenu getMenuFile() {
+		return menuFile;
+	}
+	public JMenu getMenuEdit() {
+		return menuEdit;
+	}
+	public JMenu getMenuFormat() {
+		return menuFormat;
+	}
+	public JMenu getMenuView() {
+		return menuView;
+	}
+	public JMenu getMenuHelp() {
+		return menuHelp;
+	}
+	
+	public MenuBarItem(){
+		menuFile = new JMenu("File");
+		menuEdit = new JMenu("Edit");
+		menuFormat = new JMenu("Format");
+		menuView = new JMenu("View");
+		menuHelp = new JMenu("Help");	
+	}
+	
+	public void addMenuBar(JMenuBar menuBar){
+		menuBar.add(menuFile);
+		menuBar.add(menuEdit);
+		menuBar.add(menuFormat);
+		menuBar.add(menuView);
+		menuBar.add(menuHelp);
+	}
+}

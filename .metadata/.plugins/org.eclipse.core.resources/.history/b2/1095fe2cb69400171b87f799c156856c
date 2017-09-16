@@ -1,0 +1,14 @@
+package mybrowser;
+
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+public class ReadFile extends JFrame{
+	private JTextField addressBar;
+	private JEditorPane display;
+	
+	public ReadFile() {
+		// TODO Auto-generated constructor stub
+	}
+}

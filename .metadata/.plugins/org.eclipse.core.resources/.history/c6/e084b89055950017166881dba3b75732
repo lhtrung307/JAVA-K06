@@ -1,0 +1,17 @@
+package stringmethods;
+
+import java.util.Scanner;
+
+public class CatChuoi {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Nhap vao chuoi: ");
+		String chuoi = input.nextLine();
+		String[] tu = chuoi.split(" ");
+		for (String string : tu) {
+			System.out.println(string);
+		}
+	}
+
+}

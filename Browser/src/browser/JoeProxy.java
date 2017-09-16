@@ -1,0 +1,285 @@
+package browser;
+
+///////////////////////////////////////////////////////////////////////////////
+// (c) Joe T. Nartca
+// Free. Not for commercial purpose.
+///////////////////////////////////////////////////////////////////////////////
+import java.io.*;
+import java.net.*;
+import java.util.*;
+//
+import java.nio.*;
+import java.nio.channels.*;
+import java.util.concurrent.*;
+public class JoeProxy extends ProxySelector {
+    /**
+    Constructor
+    @param IP    IP or ProxyHostname
+    @param port  int the port number 
+    @param type  the Proxy.Type.XXXX (XXXX: HTTP or SOCKS)
+    */
+    public JoeProxy(String IP, int port, Proxy.Type type) {
+        proxies = new ArrayList<Proxy>();
+        proxies.add(new Proxy(type, new InetSocketAddress(IP, port)));
+        (new Server(port)).start();
+    }
+    /**
+    add a Proxy with the IP, port and type to the list
+    @param ip   the IP or ProxyHostname
+    @param port the ProxyPort
+    @param type the Proxy.Type.XXXX (XXXX: HTTP or SOCKS)
+    */
+    public void addProxy(String ip, int port, Proxy.Type type) {
+        Proxy pxy = new Proxy(type, new InetSocketAddress(ip, port));
+        if (!proxies.contains(pxy)) proxies.add(pxy);
+    }
+    /**
+    @return Object Array
+    */
+    public Object[] getList() {
+        if (proxies.size() > 0) return proxies.toArray();
+        return null;
+    }
+    private int idx = 0;
+    private Random r = new Random();
+    /**
+    use the next Proxy in the list
+    */
+    public void nextProxy() {
+        if (idx < (proxies.size()-2)) ++idx;
+        else idx = 0;
+        try {
+            atProxy(idx);
+        } catch (Exception e) { }
+    }
+    /**
+    use the previous Proxy in the list
+    */
+    public void previousProxy() {
+        if (idx > 0) --idx;
+        else idx = proxies.size()-1;
+        try {
+            atProxy(idx);
+        } catch (Exception e) { }
+    }
+    /**
+    use any available Proxy in the list
+    */
+    public void anyProxy() {
+        try {
+            atProxy(Math.abs(r.nextInt(proxies.size())));
+        } catch (Exception e) { }
+    }
+    /**
+    use the Proxy with the index idx in the list
+    @param idx   the location index of the list
+    */
+    public void atProxy(int idx) throws Exception {
+        int s = proxies.size();
+        if (idx >= 0 && idx < s) {
+            Proxy p0 = proxies.set(0, proxies.get(idx));
+            proxies.set(idx, p0);
+        } else throw new Exception("atProxy: OutOfRange="+idx); 
+    }
+    /**
+    use the Proxy with the IP, port and type
+    @param ip   the IP or ProxyHostname
+    @param port the ProxyPort
+    @param type the Proxy.Type.XXXX (XXXX: HTTP or SOCKS)
+    */
+    public void atProxy(String ip, int port, Proxy.Type type) throws Exception {
+        Proxy pxy = new Proxy(type, new InetSocketAddress(ip, port));
+        if (proxies.contains(pxy)) atProxy(proxies.indexOf(pxy));
+        else throw new Exception("Unknown atProxy "+ip+":"+port); 
+    }
+    /**
+    get the number of Proxies
+    @return int 
+    */
+    public int getProxyCount() {
+        return proxies.size();
+    }
+    // IP:Port:Type
+    public void addProxy(String pxy) {
+        String[] x = pxy.split(":");
+        proxies.add(new Proxy(x[2].charAt(0) == 's'?
+                       Proxy.Type.SOCKS:Proxy.Type.HTTP,
+                       new InetSocketAddress(x[0],
+                       Integer.parseInt(x[1]))));
+    }
+    /**
+    remove the Proxy with the IP, port and type from the list
+    @param ip   the IP or ProxyHostname
+    @param port the ProxyPort
+    @param type the Proxy.Type.XXXX (XXXX: HTTP or SOCKS)
+    */
+    public void removeProxy(String ip, int port, Proxy.Type type) {
+        Proxy pxy = new Proxy(type, new InetSocketAddress(ip, port));
+        if (proxies.contains(pxy)) proxies.remove(pxy);
+    }
+    /**
+    get the full description of the currently-in-use proxy
+    @return String 
+    */
+    public String getSelectedProxyName() {
+        return proxies.get(0).toString();
+    }
+    public Proxy getProxyInUse() {
+        return proxies.get(0);
+    }
+    public Proxy getProxy(String ip, int port, Proxy.Type type) {
+        Proxy pxy = new Proxy(type, new InetSocketAddress(ip, port));
+        return (proxies.contains(pxy))? pxy:null; 
+    }
+    private List<Proxy> proxies;
+    /**
+    Selects all the applicable proxies based on the protocol to access the 
+    resource with and a destination address to access the resource at. 
+    @param uri   he URI that a connection is required to
+    @return List<Proxy> 
+    */
+    public List<Proxy> select(URI uri) { 
+        return proxies; 
+    }
+    /**
+    Called to indicate that a connection could not be established to a proxy/socks server.
+    @param uri   The URI that the proxy at sa failed to serve.
+    @param sa    he socket address of the proxy/SOCKS server
+    @param ioe   The I/O exception thrown when the connect failed.
+    */
+    public void connectFailed(URI uri, SocketAddress sa, IOException ioe) { }
+    /**
+    set Blacklist (a plain text file with sequential patters of blacklisted hosts
+    @param blacklist   String, file name
+    */
+    public void setBlacklist(String blacklist) {
+        try (FileInputStream fi = new FileInputStream(blacklist)) {
+            byte[] rec = new byte[fi.available()];
+            int n = fi.read(rec);
+            String[] bl = (new String(rec,0,n)).split(System.lineSeparator());
+            blist = new byte[bl.length][];
+            for (int i = 0; i < bl.length; ++i) blist[i] = bl[i].getBytes();
+        } catch (Exception e) {  }
+    }
+    private byte[][] blist;
+    // internal Proxy to the WEB.........
+    private class Server extends Thread {
+        public Server(int port) {
+            this.port = port;
+            if (blist == null) {
+                blist = new byte[3][];
+                blist[0] = "oogleads".getBytes(); // googleadsservice
+                blist[1] = "ooglesyn".getBytes(); // googlesyndicate
+                blist[2] = "oogletag".getBytes(); // googletag
+            }
+        }
+        private int port;
+        private ExecutorService exe;
+        private ServerSocketChannel ss;
+        public void run() {
+            try {
+                // setup ThreadPool
+                exe = Executors.newCachedThreadPool();
+                // start proxy NIO_Server        
+                ss = ServerSocketChannel.open();
+                ss.socket().bind(new InetSocketAddress(port));
+                while(true) exe.execute((new Service(ss.accept())));
+            } catch (Exception e) { }
+            finally { try {
+                    Thread.sleep(0, 100);
+                    if (ss != null) ss.close();
+                } catch (Exception e) { }
+            }
+         } 
+         private class Service implements Runnable {
+            private SocketChannel webSoc, soc;       
+            public Service(SocketChannel soc) {
+                this.soc = soc;
+            }
+            public void run() {
+                try {
+                    String webHost = null;
+                    byte[] buf = new byte[32768]; //
+                    ByteBuffer bbuf = ByteBuffer.allocate(32768);
+                    int len = soc.read(bbuf);   // read the header
+                    ((ByteBuffer)bbuf.flip()).get(buf, 0, len);
+                    if (buf[0] != 'G' && buf[0] != 'P' &&  buf[0] != 'C') {
+                        sayOK();
+                        return;
+                    }
+                    // FuzzySearch: BlackList, OutCookies
+                    out: for (int p = 15; p < len; ++p)
+                    if (buf[p] == '\n' && buf[p+1] == 'H') {
+                        int be = p - 14; // back to last '/'
+                        p += 7; // add 7 for '\nHost:'
+                        for (int i = p+4; i < len; ++i)
+                        if (buf[i] == '\r' || buf[i] == ':') {
+                            //---------------blackListing-----------------------
+                            for (int x, n = 0; n < blist.length; ++n) {
+                                x = blist[n].length;
+                                in: for (int l = 0, j = p; j < i && (j+x) <= i;++j)
+                                if (blist[n][0] == buf[j]) { // lazySearch...
+                                   for (l = 1, ++j; l < x; ++j)
+                                   if (buf[j] != blist[n][l++]) { --j; continue in; }
+                                   // Blacklisted....say OK to browser and return
+                                   sayOK();
+                                   return;
+                                }
+                            } // webHost
+                            webHost = new String(buf, p, i-p);
+                            break out;
+                        }
+                    }
+                    if (webHost != null) { // not blacklisted webHost
+                        if (buf[0] == 'C') { // CONNECT --> Tunneling (https)
+                            soc.write(ByteBuffer.wrap("HTTP/1.1 200 OK\r\n\r\n".getBytes()));
+                            webSoc = SocketChannel.open(new InetSocketAddress(webHost, 443));
+                        } else { // GET/POST --- http only...
+                            webSoc = SocketChannel.open(new InetSocketAddress(webHost, 80));
+                            webSoc.write(ByteBuffer.wrap(buf,0,len));
+                        }
+                        soc.socket().setTcpNoDelay(true);
+                        webSoc.socket().setTcpNoDelay(true);
+                        exe.execute(()->{
+                           try {   // write the rest to webHost
+                                ByteBuffer wbuf = ByteBuffer.allocateDirect(8192);
+                                while (soc.read(wbuf) != -1) {    
+                                     webSoc.write((ByteBuffer)wbuf.flip());
+                                     wbuf.clear(); // must be....
+                                }
+                           } catch (Exception e) { }
+                        });
+                        soc.socket().setSendBufferSize(32768);
+                        webSoc.socket().setReceiveBufferSize(32768);
+                        // fuzzySearch: set-cookies
+                        len = webSoc.read(bbuf);
+                        ((ByteBuffer)bbuf.flip()).get(buf, 0, len);
+                        soc.write(ByteBuffer.wrap(buf, 0, len));
+                        bbuf.clear(); // must be....
+                        while (webSoc.read(bbuf) != -1) {
+                               soc.write((ByteBuffer)bbuf.flip());
+                               bbuf.clear(); // must be....
+                        }
+                    }
+                } catch (Exception e) { }
+                closeAll();
+            }
+            private void sayOK() throws Exception {
+                soc.write(ByteBuffer.wrap("HTTP/1.1 200 OK\r\n\r\n".getBytes()));
+                closeAll();
+            }
+            private void closeAll() {
+                try {
+                    soc.shutdownInput();
+                    soc.shutdownOutput();
+                    soc.close();
+                    if (webSoc != null){
+                        webSoc.shutdownInput();
+                        webSoc.shutdownOutput();
+                        webSoc.close();
+                    }
+                } catch (Exception ex) { }
+             }
+        }
+    }
+}

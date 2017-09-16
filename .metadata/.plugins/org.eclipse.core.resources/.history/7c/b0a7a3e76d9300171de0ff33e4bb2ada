@@ -1,0 +1,130 @@
+package view;
+
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+public class MenuFileItem implements ActionListener{
+	//File new
+	private JMenuItem itemNew;
+	
+	//File open
+	private JMenuItem itemOpen;
+	
+	//File save
+	private JMenuItem itemSave;
+
+	//File save as
+	private JMenuItem itemSaveAs;
+	
+	//File page setup
+	private JMenuItem itemPageSetup;
+	
+	//File print
+	private JMenuItem itemPrint;
+	
+	//File exit
+	private JMenuItem itemExit;
+	
+	public MenuFileItem(){
+		itemNew = fileNew();
+		itemOpen = fileOpen();
+		itemSave = fileSave();
+		itemSaveAs = fileSaveAs();
+		itemPageSetup = filePageSetup();
+		itemPrint = filePrint();
+		itemExit = fileExit();
+	}
+	
+
+	public JMenuItem getItemNew() {
+		return itemNew;
+	}
+
+	public JMenuItem getItemOpen() {
+		return itemOpen;
+	}
+
+	public JMenuItem getItemSave() {
+		return itemSave;
+	}
+
+	public JMenuItem getItemSaveAs() {
+		return itemSaveAs;
+	}
+
+	public JMenuItem getItemPageSetup() {
+		return itemPageSetup;
+	}
+
+	public JMenuItem getItemPrint() {
+		return itemPrint;
+	}
+
+	public JMenuItem getItemExit() {
+		return itemExit;
+	}
+	
+	private void addMenuFile(){
+		
+	}
+	
+	private JMenuItem fileNew() {
+		JMenuItem itemNew = new JMenuItem("New");
+		itemNew.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		itemNew.addActionListener(this);
+		return itemNew;
+	}
+	
+	private JMenuItem fileOpen(){
+		JMenuItem itemOpen = new JMenuItem("Open");
+		itemOpen.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		itemOpen.addActionListener(this);
+		return itemOpen;
+	}
+	
+	private JMenuItem fileSave(){
+		JMenuItem itemSave = new JMenuItem("Save");
+		itemSave.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		itemSave.addActionListener(this);
+		return itemSave;
+	}
+	
+	private JMenuItem fileSaveAs(){
+		JMenuItem itemSaveAs = new JMenuItem("Save As");
+		itemSaveAs.addActionListener(this);
+		return itemSaveAs;
+	}
+	
+	private JMenuItem filePageSetup(){
+		JMenuItem itemPageSetup = new JMenuItem("Page Setup");
+		itemPageSetup.addActionListener(this);
+		return itemPageSetup;
+	}
+	
+	private JMenuItem filePrint(){
+		JMenuItem itemPrint = new JMenuItem("Print");
+		itemPrint.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_P, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		itemPrint.addActionListener(this);
+		return itemPrint;
+	}
+	
+	private JMenuItem fileExit(){
+		JMenuItem itemExit = new JMenuItem("Exit");
+		itemExit.addActionListener(this);
+		return itemExit;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+}

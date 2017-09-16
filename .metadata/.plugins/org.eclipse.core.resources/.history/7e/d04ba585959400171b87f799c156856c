@@ -1,0 +1,29 @@
+package view;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+
+public class MyWannacry extends JFrame implements ActionListener{
+	public MyWannacry(){
+		this.setTitle("My Wannacry 1.0");
+		
+		this.setSize(600, 400);
+		
+		this.getContentPane().setBackground(Color.RED);
+		
+		this.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main(String[] args) {
+		new MyWannacry();
+	}
+}
