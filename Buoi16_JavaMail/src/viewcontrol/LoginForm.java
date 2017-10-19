@@ -99,7 +99,7 @@ public class LoginForm extends JFrame {
 					textField_Port.setText("");
 				}
 				if(comboBox_serverMail.getSelectedIndex() == 1){
-					textField_Port.setText("584");
+					textField_Port.setText("587");
 				}
 				if(comboBox_serverMail.getSelectedIndex() == 2){
 					textField_Port.setText("0");
