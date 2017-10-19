@@ -12,13 +12,11 @@ public class ServerChat {
 		try {
 			
 			ServerSocket ss = new ServerSocket(13579);
-			Socket sk = ss.accept();
-			Thread read = new Read(sk);
-			Thread write = new Write(sk, "Trung");
+			
 			while (true) {
-				
-
-				
+				Socket sk = ss.accept();
+				Thread read = new Read(sk);
+				Thread write = new Write(sk, "Trung");
 				read.start();
 				write.start();
 			}

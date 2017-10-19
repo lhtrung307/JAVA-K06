@@ -4,18 +4,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class WriteFile extends Thread {
 	private Socket sk;
-	private String name;
 	File file;
 
 	public WriteFile(Socket sk, String name, File file) {
 		this.sk = sk;
-		this.name = name;
 		this.file = file;
 	}
 

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -5,6 +6,7 @@ import java.util.Scanner;
 public class Write extends Thread {
 	private Socket sk;
 	private String name;
+	private String smsSend;
 
 	public Write(Socket sk, String name) {
 		this.sk = sk;
@@ -14,15 +16,25 @@ public class Write extends Thread {
 	@Override
 	public void run() {
 		try {
-			Scanner input = new Scanner(System.in);
-			PrintWriter pw = new PrintWriter(sk.getOutputStream());
+			
 			while (true) {
-				String sms = input.nextLine();
-				pw.println(name + ": " + sms);
-				pw.flush();
+				setNewMessage();
+				sendMessage();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private void sendMessage() throws IOException {
+		PrintWriter pw = new PrintWriter(sk.getOutputStream());
+		pw.println(name + ": " + smsSend);
+		pw.flush();
+	}
+	
+	private void setNewMessage(){
+		Scanner input = new Scanner(System.in);
+		smsSend = input.nextLine();
+	}
+
 }
