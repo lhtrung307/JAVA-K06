@@ -2,12 +2,9 @@ package model;
 
 import java.util.Properties;
 import javax.mail.Authenticator;
-import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class MyMail {
 	public String serverMail;
@@ -55,8 +52,8 @@ public class MyMail {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public boolean login(){
+
+	public boolean login() {
 		Properties properties = new Properties();
 		putProperties(properties);
 		session = createNewSession(properties);
@@ -69,19 +66,19 @@ public class MyMail {
 			return false;
 		}
 	}
-	
-	public void putProperties(Properties properties){
+
+	public void putProperties(Properties properties) {
 		properties.put("mail.smtp.host", this.serverMail);
 		properties.put("mail.smtp.port", this.port);
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.auth", "true");
 	}
-	
+
 	private Session createNewSession(Properties properties) {
 		return Session.getInstance(properties, getAuthenticator());
 	}
-	
-	private Authenticator getAuthenticator(){
+
+	private Authenticator getAuthenticator() {
 		return new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -89,28 +86,5 @@ public class MyMail {
 			}
 		};
 	}
-	
-	public boolean sendMail(String to, String cc, String bcc, String subject, String content){
-		try {
-			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress(username));
-			msg.setSubject(subject);
-			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-			if(cc != null){
-				msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-			}
-			if(bcc != null){
-				msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc));
-			}
-			msg.getSentDate();
-			msg.setText(content);
-			Transport transport = session.getTransport();
-			transport.connect();
-			transport.send(msg);
-			return transport.isConnected();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+
 }

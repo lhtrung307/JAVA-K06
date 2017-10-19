@@ -1,6 +1,5 @@
 package viewcontrol;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,17 +17,16 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class LoginForm extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField_Port;
+	private JTextField textField_Username;
 	private JPasswordField passwordField;
 
 	/**
@@ -83,19 +81,33 @@ public class LoginForm extends JFrame {
 		lblPassword.setBounds(10, 201, 105, 27);
 		contentPane.add(lblPassword);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(125, 100, 259, 33);
-		contentPane.add(textField_1);
+		textField_Username = new JTextField();
+		textField_Username.setColumns(10);
+		textField_Username.setBounds(125, 149, 259, 33);
+		contentPane.add(textField_Username);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(125, 149, 259, 33);
-		contentPane.add(textField_2);
+		textField_Port = new JTextField();
+		textField_Port.setColumns(10);
+		textField_Port.setBounds(125, 100, 259, 33);
+		textField_Port.setEditable(false);
+		contentPane.add(textField_Port);
 		
 		JComboBox comboBox_serverMail = new JComboBox();
+		comboBox_serverMail.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(comboBox_serverMail.getSelectedIndex() == 0){
+					textField_Port.setText("");
+				}
+				if(comboBox_serverMail.getSelectedIndex() == 1){
+					textField_Port.setText("584");
+				}
+				if(comboBox_serverMail.getSelectedIndex() == 2){
+					textField_Port.setText("0");
+				}
+			}
+		});
 		comboBox_serverMail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_serverMail.setModel(new DefaultComboBoxModel(new String[] {"smtp.gmail.com", "smtp-mail.outlook.com"}));
+		comboBox_serverMail.setModel(new DefaultComboBoxModel(new String[] {"", "smtp.gmail.com", "smtp-mail.outlook.com"}));
 		comboBox_serverMail.setBounds(125, 57, 189, 27);
 		contentPane.add(comboBox_serverMail);
 		
@@ -105,9 +117,9 @@ public class LoginForm extends JFrame {
 //				String serverMail = textField.getText();
 				String serverMail = comboBox_serverMail.getSelectedItem().toString();
 				
-				String s_port = textField_1.getText();
+				String s_port = textField_Port.getText();
 				int port = Integer.parseInt(s_port);
-				String username = textField_2.getText();
+				String username = textField_Username.getText();
 				String password = passwordField.getText();
 				MyMail myMail = new MyMail(serverMail, port, username, password);
 				if(myMail.login()){
@@ -115,9 +127,9 @@ public class LoginForm extends JFrame {
 					sendForm.setMyMail(myMail);
 					sendForm.setVisible(true);
 					LoginForm.this.setVisible(false);
-					JOptionPane.showConfirmDialog(LoginForm.this, "Login successful");
+					JOptionPane.showMessageDialog(LoginForm.this, "Login successful");
 				} else{
-					JOptionPane.showConfirmDialog(LoginForm.this, "Login fail");
+					JOptionPane.showMessageDialog(LoginForm.this, "Login fail");
 				}
 			}
 		});

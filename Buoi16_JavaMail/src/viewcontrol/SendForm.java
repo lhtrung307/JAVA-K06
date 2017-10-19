@@ -1,6 +1,5 @@
 package viewcontrol;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.MyMail;
+import model.UserMail;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,8 +15,10 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 
 public class SendForm extends JFrame {
@@ -27,6 +29,7 @@ public class SendForm extends JFrame {
 	private JTextField textField_bcc;
 	private MyMail myMail;
 	private JTextField textField_subject;
+	private JTextField textField_filePath;
 
 	/**
 	 * Launch the application.
@@ -49,7 +52,7 @@ public class SendForm extends JFrame {
 	 */
 	public SendForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 641, 488);
+		setBounds(100, 100, 641, 523);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,7 +90,9 @@ public class SendForm extends JFrame {
 				String cc = textField_cc.getText();
 				String bcc = textField_bcc.getText();
 				String content = textArea.getText();
-				boolean check = myMail.sendMail(to, cc, bcc, subject, content);
+				String filePath = textField_filePath.getText();
+				UserMail userMail = new UserMail(to, cc, bcc, subject, content, filePath);
+				boolean check = userMail.sendMail(myMail.session, myMail.username);
 				if(check){
 					JOptionPane.showMessageDialog(SendForm.this, "Success!");
 				} else{
@@ -96,12 +101,12 @@ public class SendForm extends JFrame {
 			}
 		});
 		btnSendMail.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnSendMail.setBounds(88, 374, 133, 33);
+		btnSendMail.setBounds(88, 440, 133, 33);
 		contentPane.add(btnSendMail);
 		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnLogOut.setBounds(336, 374, 133, 33);
+		btnLogOut.setBounds(336, 440, 133, 33);
 		contentPane.add(btnLogOut);
 		
 		textField_to = new JTextField();
@@ -128,6 +133,31 @@ public class SendForm extends JFrame {
 		textField_subject.setColumns(10);
 		textField_subject.setBounds(96, 28, 373, 33);
 		contentPane.add(textField_subject);
+		
+		JLabel lblFilePath = new JLabel("File Path:");
+		lblFilePath.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFilePath.setBounds(10, 388, 163, 27);
+		contentPane.add(lblFilePath);
+		
+		textField_filePath = new JTextField();
+		textField_filePath.setColumns(10);
+		textField_filePath.setBounds(115, 387, 340, 33);
+		contentPane.add(textField_filePath);
+		
+		JButton btnChoose = new JButton("Choose");
+		btnChoose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser();
+				int returnVal = jfc.showOpenDialog(SendForm.this);
+				if(returnVal == JFileChooser.APPROVE_OPTION){
+					File file = jfc.getSelectedFile();
+					textField_filePath.setText(file.getAbsolutePath());
+				}
+			}
+		});
+		btnChoose.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnChoose.setBounds(486, 388, 117, 33);
+		contentPane.add(btnChoose);
 	}
 
 	public MyMail getMyMail() {
@@ -137,9 +167,5 @@ public class SendForm extends JFrame {
 	public void setMyMail(MyMail myMail) {
 		this.myMail = myMail;
 	}
-	
-	
-	
-	
 }
 
