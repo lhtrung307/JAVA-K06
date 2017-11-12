@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ServerChat.java&apos; to &apos;Buoi14_JavaChat1/src/(default package)&apos;&#x0D;&#x0A;- Original project: &apos;Buoi14_TienTrinh&apos;&#x0D;&#x0A;- Destination element: &apos;Buoi14_JavaChat1/src/(default package)&apos;&#x0D;&#x0A;- Original element: &apos;ServerChat.java&apos;" description="Copy compilation unit" destination="=Buoi14_JavaChat1/src&lt;" element1="/src&lt;{ServerChat.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1506690676266" units="1" version="1.0"/>
+</session>

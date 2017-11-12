@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.CheckingMails;
 import model.MyMail;
 
 import javax.swing.JLabel;
@@ -104,17 +105,19 @@ public class LoginForm extends JFrame {
 				if(comboBox_serverMail.getSelectedIndex() == 2){
 					textField_Port.setText("0");
 				}
+				if(comboBox_serverMail.getSelectedIndex() == 3){
+					textField_Port.setText("995");
+				}
 			}
 		});
 		comboBox_serverMail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_serverMail.setModel(new DefaultComboBoxModel(new String[] {"", "smtp.gmail.com", "smtp-mail.outlook.com"}));
+		comboBox_serverMail.setModel(new DefaultComboBoxModel(new String[] {"", "smtp.gmail.com", "smtp-mail.outlook.com", "pop.gmail.com"}));
 		comboBox_serverMail.setBounds(125, 57, 189, 27);
 		contentPane.add(comboBox_serverMail);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String serverMail = textField.getText();
 				String serverMail = comboBox_serverMail.getSelectedItem().toString();
 				
 				String s_port = textField_Port.getText();
@@ -134,12 +137,38 @@ public class LoginForm extends JFrame {
 			}
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnLogin.setBounds(162, 264, 105, 33);
+		btnLogin.setBounds(73, 262, 105, 33);
 		contentPane.add(btnLogin);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(125, 198, 259, 33);
 		contentPane.add(passwordField);
+		
+		JButton btn_checkMails = new JButton("Check Mails");
+		btn_checkMails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String serverMail = comboBox_serverMail.getSelectedItem().toString();
+				
+				String s_port = textField_Port.getText();
+				int port = Integer.parseInt(s_port);
+				String username = textField_Username.getText();
+				String password = passwordField.getText();
+//				MyMail myMail = new MyMail(serverMail, port, username, password);
+//				if(myMail.login()){
+//					SendForm sendForm = new SendForm();
+//					sendForm.setMyMail(myMail);
+//					sendForm.setVisible(true);
+//					LoginForm.this.setVisible(false);
+//					JOptionPane.showMessageDialog(LoginForm.this, "Login successful");
+//				} else{
+//					JOptionPane.showMessageDialog(LoginForm.this, "Login fail");
+//				}
+				CheckingMails.check(serverMail, "pop3", username, password);
+			}
+		});
+		btn_checkMails.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btn_checkMails.setBounds(230, 262, 129, 33);
+		contentPane.add(btn_checkMails);
 		
 		
 	}

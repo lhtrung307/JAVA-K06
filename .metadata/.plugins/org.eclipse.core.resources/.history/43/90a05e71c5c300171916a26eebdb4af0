@@ -1,0 +1,83 @@
+package download;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Download extends Observable implements Runnable {
+	private static final int MAX_BUFFER_SIZE = 1024;
+	public static final String STATUS[] = { "Downloading", "Paused", "Complete", "Cancelled", "Error" };
+	private static final int DOWNLOADING = 0;
+	private static final int PAUSED = 1;
+	private static final int COMPLETE = 2;
+	private static final int CANCELLED = 3;
+	private static final int ERROR = 4;
+
+	private URL url;
+	private int size;
+	private int downloaded;
+	private int status;
+
+	public Download(URL url) {
+		this.url = url;
+		size = -1;
+		downloaded = 0;
+		status = DOWNLOADING;
+
+		download();
+	}
+
+	public String getUrl() {
+		return url.toString();
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void pause() {
+		status = PAUSED;
+		stateChanged();
+	}
+
+	public void resume() {
+		status = DOWNLOADING;
+		stateChanged();
+	}
+
+	public void cancel() {
+		status = CANCELLED;
+		stateChanged();
+	}
+
+	public void error() {
+		status = ERROR;
+		stateChanged();
+	}
+
+	private void download() {
+		Thread thread = new Thread(this);
+		thread.start();
+	}
+
+	private String getFileName(URL url){
+		String fileName = url.getFile();
+		return fileName.substring(fileName.lastIndexOf('/') + 1);
+	}
+	
+	private void run() {
+		RandomAccessFile file = null;
+		InputStream stream = null;
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private void stateChanged() {
+		setChanged();
+		notifyObservers();
+	}
+
+}

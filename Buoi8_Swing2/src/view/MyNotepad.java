@@ -109,8 +109,8 @@ public class MyNotepad extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		try {
             // Set cross-platform Java L&F (also called "Metal")
-        UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
 		} 
 	    catch (UnsupportedLookAndFeelException e) {
 	       // handle exception
@@ -124,8 +124,6 @@ public class MyNotepad extends JFrame implements ActionListener{
 	    catch (IllegalAccessException e) {
 	       // handle exception
 	    }
-			
-			
 		new MyNotepad();
 	}
 
@@ -150,7 +148,15 @@ public class MyNotepad extends JFrame implements ActionListener{
 		if(tenSuKien.equals("Print")){
 			this.print();
 		}
+		if(tenSuKien.equals("Word Wrap")){
+			this.wordWrap();
+		}
+		if(tenSuKien.equals("Page Setup")){
+			this.pageSetup();
+		}
 	}
+
+	
 
 	private void newFile(){
 		confirmSaveFileDialog();
@@ -201,7 +207,6 @@ public class MyNotepad extends JFrame implements ActionListener{
 		try {
 			os = new FileOutputStream(tenFile);
 			OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-			int i = 0;
 			osw.write(duLieu);
 			osw.close();
 		} catch (Exception e) {
@@ -293,6 +298,11 @@ public class MyNotepad extends JFrame implements ActionListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void wordWrap() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private void exit(){

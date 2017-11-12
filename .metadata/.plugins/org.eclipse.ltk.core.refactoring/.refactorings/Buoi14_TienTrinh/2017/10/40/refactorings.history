@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;Buoi15_RemoteDesktop/src/tientrinh&apos;&#x0D;&#x0A;- Original project: &apos;Buoi14_TienTrinh&apos;&#x0D;&#x0A;- Destination element: &apos;Buoi15_RemoteDesktop/src/tientrinh&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Write.java&#x0D;&#x0A;     Read.java" description="Copy compilation units" destination="=Buoi15_RemoteDesktop/src&lt;tientrinh" element1="/src&lt;{Write.java" element2="/src&lt;{Read.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1507291720134" units="2" version="1.0"/>
+</session>

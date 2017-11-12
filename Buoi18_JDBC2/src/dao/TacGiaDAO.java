@@ -11,7 +11,6 @@ import model.TacGia;
 
 public class TacGiaDAO {
 	private static Connection dbConnection;
-	private static Statement dbStatement;
 	private static ResultSet setDataFromDB;
 	
 	public static ArrayList<TacGia> getAllTacGia() {
@@ -21,7 +20,7 @@ public class TacGiaDAO {
 //			Connection c = createConnection();
 			
 			//Step 2: Create statement
-			Statement st = c.createStatement();
+			Statement st = dbConnection.createStatement();
 			String query = "select * from tbl_tacgia";
 			
 			//Step 3: Excute query
@@ -34,7 +33,7 @@ public class TacGiaDAO {
 				TacGia tg = new TacGia(maTacGia, tenTacGia);
 				ketQua.add(tg);
 			}
-			DBConnection.closeConnection(c);
+			DBConnection.closeConnection(dbConnection);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

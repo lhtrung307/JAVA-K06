@@ -2,12 +2,15 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="InputEvent.CTRL_MASK" key="selection"/>
+		<item value="Invalid Download URL" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="Invalid Download URL"/>
+			<item value="get"/>
+			<item value="`"/>
 			<item value="Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()"/>
 			<item value="JText"/>
 			<item value="System.out.println(test.getLastName(1));"/>

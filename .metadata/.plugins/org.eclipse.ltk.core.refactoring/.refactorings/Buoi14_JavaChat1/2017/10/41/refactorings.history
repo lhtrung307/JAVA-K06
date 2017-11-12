@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;sms2&apos; in &apos;ClientChat&apos; to &apos;smsServer&apos;&#x0D;&#x0A;- Original project: &apos;Buoi14_JavaChat1&apos;&#x0D;&#x0A;- Original element: &apos;ClientChat.sms2&apos;&#x0D;&#x0A;- Renamed element: &apos;ClientChat.smsServer&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;sms2&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;{ClientChat.java[ClientChat^sms2" name="smsServer" references="true" setter="false" stamp="1507961135368" textual="false" version="1.0"/>
+</session>

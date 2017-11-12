@@ -1,10 +1,10 @@
 {
   "version": "v1",
   "title": "Eclipse",
-  "timestamp": 1504802519301,
+  "timestamp": 1510061273123,
   "ttl": 10080,
   "helpUrl": "https://dev.eclipse.org/recommenders/community/aeri/v2/help/",
-  "feedbackUrl": "http://ctrlflow.com/automated-error-reporting",
+  "feedbackUrl": "https://www.codetrails.com/error-analytics/",
   "aboutUrl": "https://wiki.eclipse.org/EPP/Logging",
   "submitUrl": "https://dev.eclipse.org/recommenders/community/confess/0.6/reports/",
   "maxReportSize": 262144,
